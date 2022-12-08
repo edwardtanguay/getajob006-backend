@@ -123,5 +123,10 @@
 		"name": "Jasmine",
 		"url": "https://onespace.pages.dev/techItems?id=174",
 		"description": "an open-source testing framework for JavaScript"
+	},
+	"hotjar": {
+		"name": "Hotjar",
+		"url": "https://www.hotjar.com/web-app-design",
+		"description": "a software tool to track users"
 	}
 }
