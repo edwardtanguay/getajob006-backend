@@ -1,4 +1,3 @@
-import fs from 'fs';
 import * as model from './model.js';
 import { Job, Skill, nullObjectSkill, TotaledSkill, Todo } from './types.js';
 import { join, dirname } from 'path';
@@ -100,3 +99,10 @@ export const lookupSkill = (idCode: string): Skill => {
 		}
 	}
 } 
+
+export const deleteJob = async (id: number) => {
+	const deletedObject = db.data.jobs.find((m: Job) => m.id === id);
+	db.data.jobs = db.data.jobs.filter((m:Job) => m.id !== id);
+	await db.write();
+	return deletedObject;
+}
