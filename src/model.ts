@@ -1,5 +1,5 @@
 import * as model from './model.js';
-import { IJob, ISkill, nullObjectSkill, ISkillTotal, ITodo } from './types.js';
+import { IJob, ISkill, nullObjectSkill, ISkillTotal, ITodo } from './interfaces.js';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { Low } from 'lowdb';
