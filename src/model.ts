@@ -11,9 +11,6 @@ const adapter = new JSONFile(dbFile);
 const db:any = new Low(adapter);
 await db.read();
 
-// const _jobs: Job[] = JSON.parse(fs.readFileSync('./src/data/jobs.json', 'utf8'));
-// const skillInfos: any = JSON.parse(fs.readFileSync('./src/data/skillInfos.json', 'utf8'));
-
 export const getApiInstructionsHtml = () => {
 	return `
 <style>
@@ -85,16 +82,16 @@ export const getSkillsWithList = (skillList: string) => {
 }
 
 export const lookupSkill = (idCode: string): Skill => {
-	const _skillInfos: any = db.data.skillInfos;
-	const _skill = _skillInfos[idCode];
-	if (_skill === undefined) {
+	const skills: any = db.data.skills;
+	const skill = skills.find((m:Skill)=>m.idCode === idCode);
+	if (skill === undefined) {
 		return {
 			...nullObjectSkill,
 			idCode
 		}
 	} else {
 		return {
-			..._skill,
+			...skill,
 			idCode,
 		}
 	}
