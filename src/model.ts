@@ -1,5 +1,5 @@
 import * as model from './model.js';
-import { Job, Skill, nullObjectSkill, TotaledSkill, Todo } from './types.js';
+import { Job, Skill, nullObjectSkill, SkillTotal, Todo } from './types.js';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { Low } from 'lowdb';
@@ -8,7 +8,7 @@ import { JSONFile } from 'lowdb/node';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dbFile = join(__dirname, `../src/data/db.json`);
 const adapter = new JSONFile(dbFile);
-const db:any = new Low(adapter);
+const db: any = new Low(adapter);
 await db.read();
 
 export const getApiInstructionsHtml = () => {
@@ -23,7 +23,7 @@ a, h1 {
 <ul>
 	<li><a href="jobs">/jobs</a> - array of job listings will all fields</li>
 	<li><a href="todos">/todos</a> - array of todos with todo/company/title fields</li>
-	<li><a href="totaledSkills">/totaledSkills</a> - array of skills with totals how often they occur in job listings</li>
+	<li><a href="skillTotals">/skillTotals</a> - array of skills with totals how often they occur in job listings</li>
 </ul>
 	`;
 }
@@ -53,22 +53,22 @@ export const getTodos = (): Todo[] => {
 	});
 }
 
-export const getTotaledSkills = () => {
-	const totaledSkills: TotaledSkill[] = [];
+export const getSkillTotals = () => {
+	const skillTotals: SkillTotal[] = [];
 	model.getJobs().forEach(job => {
 		job.skills.forEach(skill => {
-			const existingTotaledSkill = totaledSkills.find(totaledSkill => totaledSkill.skill.idCode === skill.idCode);
-			if (!existingTotaledSkill) {
-				totaledSkills.push({
+			const existingSkillTotal = skillTotals.find(skillTotal => skillTotal.skill.idCode === skill.idCode);
+			if (!existingSkillTotal) {
+				skillTotals.push({
 					skill,
 					total: 1
 				});
 			} else {
-				existingTotaledSkill.total++;
+				existingSkillTotal.total++;
 			}
 		});
 	})
-	return totaledSkills;
+	return skillTotals;
 }
 
 export const getSkillsWithList = (skillList: string) => {
@@ -83,7 +83,7 @@ export const getSkillsWithList = (skillList: string) => {
 
 export const lookupSkill = (idCode: string): Skill => {
 	const skills: any = db.data.skills;
-	const skill = skills.find((m:Skill)=>m.idCode === idCode);
+	const skill = skills.find((m: Skill) => m.idCode === idCode);
 	if (skill === undefined) {
 		return {
 			...nullObjectSkill,
@@ -95,11 +95,11 @@ export const lookupSkill = (idCode: string): Skill => {
 			idCode,
 		}
 	}
-} 
+}
 
 export const deleteJob = async (id: number) => {
 	const deletedObject = db.data.jobs.find((m: Job) => m.id === id);
-	db.data.jobs = db.data.jobs.filter((m:Job) => m.id !== id);
+	db.data.jobs = db.data.jobs.filter((m: Job) => m.id !== id);
 	await db.write();
 	return deletedObject;
 }

@@ -18,8 +18,8 @@ app.get('/todos', (req: express.Request, res: express.Response) => {
 	res.json(model.getTodos());
 });
 
-app.get('/totaledSkills', (req: express.Request, res: express.Response) => {
-	res.json(model.getTotaledSkills());
+app.get('/skillTotals', (req: express.Request, res: express.Response) => {
+	res.json(model.getSkillTotals());
 });
 
 app.delete('/jobs/:id', async (req: express.Request, res: express.Response) => {

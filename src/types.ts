@@ -23,7 +23,7 @@ export type Todo = {
 	url: string;
 }
 
-export type TotaledSkill = {
+export type SkillTotal = {
 	skill: Skill;
 	total: number;
 }
